@@ -212,7 +212,7 @@
                   "[resourceId('Microsoft.Web/Sites', parameters('functionAppName'))]"
                 ],
                 "properties": {
-                  "RepoUrl": "https://github.com/n3wt0n/AzureWebAppSSLManager.git",
+                  "RepoUrl": "https://github.com/campusnutrition/campusnutrition-sslmanager.git",
                   "branch": "master",
                   "IsManualIntegration": true
                 }

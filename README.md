@@ -1,11 +1,8 @@
-![Logo](../main/assets/Logo.png)
-
-![CI Badge](https://github.com/n3wt0n/AzureWebAppSSLManager/workflows/CI/badge.svg)
-[![License](https://img.shields.io/github/license/n3wt0n/AzureWebAppSSLManager.svg)](https://github.com/n3wt0n/AzureWebAppSSLManager/blob/main/LICENSE)
-
 Azure WebApp SSL Manager is an Azure Function that acquires and manages **free** SSL certificates for Azure Web App and Azure Function App hosted applications.
 
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fn3wt0n%2FAzureWebAppSSLManager%2Fmain%2FARM%2520Template%2Ftemplate.json) [![Visualize](http://armviz.io/visualizebutton.png)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fn3wt0n%2FAzureWebAppSSLManager%2Fmain%2FARM%2520Template%2Ftemplate.json)
+Modified from: https://github.com/n3wt0n/AzureWebAppSSLManager
+
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcampusnutrition%2Fcampusnutrition-sslmanager%2Fmaster%2FARM%2520Template%2Ftemplate.json) [![Visualize](http://armviz.io/visualizebutton.png)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcampusnutrition%2Fcampusnutrition-sslmanager%2Fmaster%2FARM%2520Template%2Ftemplate.json)
 
 > **Pre-Deployment**  
 > Before deploying this solution to Azure, you need to create a Service Principal (see below).  
@@ -90,13 +87,13 @@ If you experience any problem with Service Principal, take a look at [this wiki 
 
 #### SendGrid key
 
-AzureWebAppSSLManager sends emails using the *Microsoft.Azure.WebJobs.Extensions.SendGrid* extension, which needs a valid SendGrid API Key.
+campusnutrition-sslmanager sends emails using the *Microsoft.Azure.WebJobs.Extensions.SendGrid* extension, which needs a valid SendGrid API Key.
 
 To obtain an API Key, you can follow the [official SendGrid documentation](https://sendgrid.com/docs/ui/account-and-settings/api-keys/)
 
 ## Configuration
 
-To be able to run, AzureWebAppSSLManager needs the following configuration settings.
+To be able to run, campusnutrition-sslmanager needs the following configuration settings.
 
 They can be created in the Azure Web App configuration section when deployed, or in the *local.settings.json* file when debugging.
 
@@ -126,19 +123,19 @@ WebAppSSLManager-Trigger is the the trigger configuration (i.e how frequently th
 
 ## Application Properties Configuration File
 
-Currently AzureWebAppSSLManager retrieves the list of certificates to generate and install from a json file stored in a blob storage account.
+Currently campusnutrition-sslmanager retrieves the list of certificates to generate and install from a json file stored in a blob storage account.
 
-An example of the file structure can be found in the *[appproperties.json](../main/SampleJsonConfig/appproperties.json)* example file.
+An example of the file structure can be found in the *[appproperties.json](../master/SampleJsonConfig/appproperties.json)* example file.
 
-The file needs to be saved in a blob container with name as in the constant "AppPropertiesFileName" of the *[Constants.cs](../main/src/WebAppSSLManager/Models/Constants.cs)* class.
+The file needs to be saved in a blob container with name as in the constant "AppPropertiesFileName" of the *[Constants.cs](../master/src/WebAppSSLManager/Models/Constants.cs)* class.
 
 ## Certificate Information Configuration File
 
 The app retrieves some information needed for the certificate creation from a json file stored in a blob storage account.
 
-An example of the file structure can be found in the *[certinfo.json](../main/SampleJsonConfig/certinfo.json)* example file.
+An example of the file structure can be found in the *[certinfo.json](../master/SampleJsonConfig/certinfo.json)* example file.
 
-The file needs to be saved in a blob container with name as in the constant "CertInfoFileName" of the *[Constants.cs](../main/src/WebAppSSLManager/Models/Constants.cs)* class.
+The file needs to be saved in a blob container with name as in the constant "CertInfoFileName" of the *[Constants.cs](../master/src/WebAppSSLManager/Models/Constants.cs)* class.
 
 ## Limitations
 
@@ -147,6 +144,6 @@ If you need/want to manage App Service Web Apps  and Function Apps in multiple s
 
 ## Support
 
-If you have any issue with this project please let me know through the [Issues page](https://github.com/n3wt0n/AzureWebAppSSLManager/issues) and I'll try to fix the problem as soon as possible!
+If you have any issue with this project please let me know through the [Issues page](https://github.com/campusnutrition/campusnutrition-sslmanager/issues) and I'll try to fix the problem as soon as possible!
 
 If you want to contribute to this project, feel free to create a Pull Request and I will review it.
