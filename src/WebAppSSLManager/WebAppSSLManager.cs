@@ -61,7 +61,6 @@ namespace WebAppSSLManager
                     {
                         var message = $"Unable to complete the processing for {appProperty.Hostname}";
                         logger.LogError(ex, message);
-                        await MailHelper.SendEmailForErrorAsync(ex, message);
                         errors.Add((hostname: appProperty.Hostname, errorMessage: ex.Message));
                     }
 
