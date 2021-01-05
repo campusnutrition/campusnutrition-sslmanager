@@ -34,10 +34,13 @@ namespace WebAppSSLManager
 
             AzureHelper.Init(logger);
 
-            var errors = new List<(string hostname, string errorMessage)>();
+            var details = new List<(string hostname, string message)>();
             var appProperties = await BuildAppPropertiesListAsync();
 
             int certsCreated = 0;
+
+            var CertUpdatedMessage    = "Certificate successfully updated";
+            var CertNotUpdatedMessage = "Certificate not updated";
 
             if (appProperties != null && appProperties.Any())
             {
@@ -55,13 +58,18 @@ namespace WebAppSSLManager
                         {
                             await AzureHelper.AddCertificateAsync();
                             certsCreated++;
+                            details.Add((hostname: appProperty.Hostname, message: CertUpdatedMessage));
+                        }
+                        else
+                        {
+                            details.Add((hostname: appProperty.Hostname, message: CertNotUpdatedMessage));
                         }
                     }
                     catch (Exception ex)
                     {
                         var message = $"Unable to complete the processing for {appProperty.Hostname}";
                         logger.LogError(ex, message);
-                        errors.Add((hostname: appProperty.Hostname, errorMessage: ex.Message));
+                        details.Add((hostname: appProperty.Hostname, message: ex.Message));
                     }
 
                     if(Settings.BatchSize > 0 && certsCreated >= Settings.BatchSize)
@@ -73,7 +81,7 @@ namespace WebAppSSLManager
             }
 
             AzureHelper.Dispose();
-            await MailHelper.SendEmailForActivityCompletedAsync(errors);
+            await MailHelper.SendEmailForActivityCompletedAsync(details);
         }
 
         private static async Task<IEnumerable<AppProperty>> BuildAppPropertiesListAsync()

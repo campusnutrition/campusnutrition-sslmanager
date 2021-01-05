@@ -51,23 +51,21 @@ namespace WebAppSSLManager
             await SendEmail("WebAppSSLManager - Activity started", message);
         }
 
-        public static async Task SendEmailForActivityCompletedAsync(List<(string hostname, string errorMessage)> errors)
+        public static async Task SendEmailForActivityCompletedAsync(List<(string hostname, string message)> details)
         {
-            var subject = "WebAppSSLManager - Activity completed";
-            var message = $"The WebAppSSLManager Azure Function has completed it's activity at {DateTime.Now}";
+            var subject      = "WebAppSSLManager - Activity completed";
+            var emailMessage = $"The WebAppSSLManager Azure Function has completed it's activity at {DateTime.Now}";
 
-            if (errors.Count > 0)
+            if (details.Count > 0)
             {
-                subject += " with errors";
-                message += $"with {errors.Count} errors.{Environment.NewLine}The following errors occurred: {Environment.NewLine}";
-
-                foreach (var (hostname, errorMessage) in errors)
+                foreach (var (hostname, message) in details)
                 {
-                    message += $"{hostname}: {errorMessage}{Environment.NewLine}";
+                    emailMessage += $"{Environment.NewLine}{Environment.NewLine}";
+                    emailMessage += $"{hostname}: {message}";
                 }
             }
 
-            await SendEmail(subject, message);
+            await SendEmail(subject, emailMessage);
         }
 
         private static async Task SendEmail(string subject, string message)
@@ -76,7 +74,7 @@ namespace WebAppSSLManager
             {
                 var emailMessage = new SendGridMessage();
                 emailMessage.AddTo(Settings.CertificateOwnerEmail);
-                emailMessage.AddContent("text/html", message);
+                emailMessage.AddContent("text/plain", message);
                 emailMessage.SetFrom(new EmailAddress(Settings.EmailSender));
                 emailMessage.SetSubject(subject);
 
