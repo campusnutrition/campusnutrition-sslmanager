@@ -52,12 +52,24 @@ namespace WebAppSSLManager
                     CertificatesHelper.InitAppProperty(appProperty);
 
                     try
-                    {                        
+                    {
+                        var certNeeded = await AzureHelper.NeedsNewCertificateAsync();
+                        bool certAdded = false;
+
+                        if (!certNeeded)
+                        {
+                            certAdded = false;
+                        }
                         //Request certificate and install it if all is ok
-                        if (await AzureHelper.NeedsNewCertificateAsync() && await CertificatesHelper.GetCertificateAsync())
+                        else if (await CertificatesHelper.GetCertificateAsync())
                         {
                             await AzureHelper.AddCertificateAsync();
                             certsCreated++;
+                            certAdded = true;
+                        }
+
+                        if (certAdded)
+                        {
                             details.Add((hostname: appProperty.Hostname, message: CertUpdatedMessage));
                         }
                         else
