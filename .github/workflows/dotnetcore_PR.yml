@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
     - 'src/**'
+    - 'ARM Template/**'
+    - 'SampleJsonConfig/**'
 
 jobs:
   build:
@@ -12,9 +14,35 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.200
     - name: Build with dotnet
       run: dotnet build ./src/WebAppSSLManager.sln --configuration Release
+  
+  lint:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: Super-Linter
+      uses: github/super-linter@v3.15.5
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  verify-arm:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: ARM Template Toolkit (ARM TTK)
+      # You may pin to the exact commit or the version.
+      # uses: aliencube/arm-ttk-actions@6fa8c0ad67d034f6e274d5276fb492f7d263ae4a
+      uses: aliencube/arm-ttk-actions@v0.3
+      with:
+        # ARM Template file path to run the test. It can be either a directory or single file.
+        path: ARM Template/
