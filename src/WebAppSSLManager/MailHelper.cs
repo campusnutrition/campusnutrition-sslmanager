@@ -70,6 +70,12 @@ namespace WebAppSSLManager
 
         private static async Task SendEmail(string subject, string message)
         {
+            if (Settings.DisableSendMail)
+            {
+                _logger.LogInformation("Sending mail disabled");
+                return;
+            }
+
             try
             {
                 var emailMessage = new SendGridMessage();

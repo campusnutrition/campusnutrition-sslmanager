@@ -20,6 +20,7 @@ namespace WebAppSSLManager.Models
         public static int DaysBeforeExpiryToRenew { get; private set; }
         public static TimeSpan TimeBeforeExpiryToRenew { get; private set; }
         public static TimeSpan WaitTimeBeforeValidate { get; private set; }
+        public static bool DisableSendMail { get; private set; }
 
         public static void Init(ILogger logger)
         {
@@ -109,6 +110,10 @@ namespace WebAppSSLManager.Models
                 _logger.LogWarning("WaitTimeBeforeValidateInSeconds environment variable is null or invalid. Reverting to default");
                 WaitTimeBeforeValidate = Constants.WaitTimeBeforeValidate;
             }
+
+            DisableSendMail = !String.IsNullOrEmpty(
+                Environment.GetEnvironmentVariable("DisableSendMail")
+            );
         }
     }
 }
